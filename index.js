@@ -36,7 +36,7 @@ const fetchMuslimSalah = async (city) => {
         ramadanTimes.push({
             city: ucWords(city),
             date,
-            dateTime: index === 0 ? moment().add(-1, 'day').format('YYYY-MM-DD') : moment().add(--index, 'days').format('YYYY-MM-DD'),
+            dateTime: moment().add(index - 2, 'day').format('YYYY-MM-DD'),
             times: {
                 fajr,
                 sunrise,
@@ -62,7 +62,7 @@ app.get('/cities', (req, res) => {
 
 app.get('/today', async (req, res) => {
     const ramadanTimes = await fetchMuslimSalah(req.query.city);
-    const today = moment().add(5, 'days').format('YYYY-MM-DD');
+    const today = moment().format('YYYY-MM-DD');
     const todayRamadanTimes = ramadanTimes.find((ramadanTime) => ramadanTime.dateTime === today);
     res.json(todayRamadanTimes);
 });
